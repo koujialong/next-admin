@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+# 记录当前分支和远程仓库
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+REMOTE_URL=$(git config --get remote.origin.url)
+
+if [ "$CURRENT_BRANCH" != "main" ]; then
+  echo "Not on the main branch, skipping post-push script."
+  exit 0
+fi
+
+# 推送代码
+git push
+
+# 检查推送是否成功
+if [ $? -eq 0 ]; then
+  # 调用自定义的 post-push 脚本
+  curl https://api.vercel.com/v1/integrations/deploy/prj_T8HEOk3z4A8rlEKiKHgyMQ4o7VdH/o51ZCkvooo
+else
+  echo "Push failed."
+  exit 1
+fi
