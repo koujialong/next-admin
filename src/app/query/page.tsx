@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { createUser, deleteUser, getUsers } from "../lib/api-request";
 import { useRouter } from "next/navigation";
 import useSWR, { Key } from "swr";
-import useSWRMutation, { SWRMutationConfiguration, SWRMutationResponse } from "swr/mutation";
+import useSWRMutation, { SWRMutationResponse } from "swr/mutation";
 import {
   Table,
   TableBody,
