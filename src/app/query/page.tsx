@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { createUser, deleteUser, getUsers } from "../lib/api-request";
 import { useRouter } from "next/navigation";
 import useSWR, { Key } from "swr";
-import useSWRMutation, { SWRMutationResponse } from "swr/mutation";
+import useSWRMutation, { SWRMutationConfiguration, SWRMutationResponse } from "swr/mutation";
 import {
   Table,
   TableBody,
@@ -21,25 +21,38 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 function useMutation<Q, A>(
   key: Key,
-  fn: (params: Q) => Promise<A>
+  fn: (params: Q) => Promise<A>,
+  options:{
+    onSuccess?:(data:A)=>void
+  }
 ): SWRMutationResponse<A, unknown, string, Q> {
-  const mutate = useSWRMutation(key, (_: Key, { arg }: { arg: Q }) => fn(arg));
+  const mutate = useSWRMutation(key, (_: Key, { arg }: { arg: Q }) => fn(arg),{
+    onSuccess:options.onSuccess
+  });
   return mutate;
 }
 
 export default function Page() {
   const userKey = "/api/user";
   const router = useRouter();
+  const { toast } = useToast()
   const [pageIndex, setPageIndex] = useState(0);
   const { data, isLoading, mutate } = useSWR([userKey, pageIndex], () =>
-    getUsers(pageIndex)
+    getUsers(pageIndex),{
+      onSuccess:()=>toast({title:'加载完成!'})
+    }
   );
 
-  const { trigger: delUer } = useMutation([userKey, pageIndex], deleteUser);
-  const { trigger: updateUser } = useMutation([userKey, pageIndex], createUser);
+  const { trigger: delUer } = useMutation([userKey, pageIndex], deleteUser,{
+    onSuccess:()=>toast({title:'删除完成!'})
+  });
+  const { trigger: updateUser } = useMutation([userKey, pageIndex], createUser,{
+    onSuccess:()=>toast({title:'更新完成!'})
+  });
 
   return (
     <div>
