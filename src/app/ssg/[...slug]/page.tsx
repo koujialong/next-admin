@@ -1,5 +1,6 @@
 import { getBlogFiles } from "@/app/lib/utils";
-import MarkdownRenderer from "@/components/markdown-rendere";
+import MarkdownRenderer from "@/components/markdown-renderer";
+import { getCurrentZoneTime } from "@/lib/utils";
 import fs from "fs";
 import path from "path";
 type Props = {
@@ -13,7 +14,7 @@ export const revalidate = 1000000;
 export const dynamicParams = false;
 export const ssgPaths = ["src", "app", "ssg", "md"];
 export default async function SSG({ params }: Props) {
-  const time = new Date().toLocaleString();
+  const time = getCurrentZoneTime(8)
   const {
     slug: [name],
   } = await params;
