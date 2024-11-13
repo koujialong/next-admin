@@ -19,7 +19,6 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
           const { children, className, ...rest } = props;
           const match = /language-(\w+)/.exec(className || "");
           const codeString = String(children).replace(/\n$/, "");
-          console.log("match", match);
           return match ? (
             <div className={style.codeBlock}>
               <Toolbar codeString={codeString}/>
