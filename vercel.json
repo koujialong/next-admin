@@ -1,3 +1,3 @@
 {
-    "buildCommand": "pnpm build && rm -rf .next/cache/webpack"
+    "buildCommand": "pnpm build"
 }
