@@ -1,0 +1,53 @@
+.markdown {
+  h1 {
+    font-size: 30px;
+    padding-bottom: 20px;
+  }
+  h2 {
+    font-size: 25px;
+    padding: 10px;
+    padding-left: 0px;
+  }
+  h3 {
+    font-size: 20px;
+    padding: 2px;
+    padding-left: 0px;
+  }
+  pre {
+    margin: 20px 0px 20px 0px;
+  }
+  code {
+    font-size: 15px;
+  }
+  p {
+    font-size: 15px;
+  }
+
+  & .codeBlock {
+    position: relative;
+    margin-bottom: 1rem;
+    position: relative;
+    .toolbar{
+      width: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+
+    & .copyButton {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 4px;
+
+      &:hover {
+        background-color: #555;
+      }
+    }
+  }
+}

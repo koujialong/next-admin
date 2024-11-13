@@ -1,0 +1,26 @@
+.toolbar {
+  width: fit-content;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  & .codeBlock {
+    position: relative;
+    margin-bottom: 1rem;
+
+    & .copyButton {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 4px;
+
+      &:hover {
+        background-color: #555;
+      }
+    }
+  }
+}

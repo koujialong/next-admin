@@ -8,8 +8,18 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "./ui/collapsible";
+import { getBlogFiles } from "@/app/lib/utils";
+import { ssgPaths } from "@/app/ssg/[...slug]/page";
+import { isrPaths } from "@/app/isr/[...slug]/page";
 
 // Menu items.
 const items = [
@@ -24,14 +34,22 @@ const items = [
     icon: Inbox,
   },
   {
-    title: "CIS",
-    url: "#",
+    title: "SSG",
+    url: "/ssg",
     icon: Calendar,
+    child: getBlogFiles(ssgPaths).map((name) => ({
+      title: name.split(".")[0],
+      url: `/ssg/${name}`,
+    })),
   },
   {
-    title: "Search",
-    url: "#",
+    title: "ISR",
+    url: "/isr",
     icon: Search,
+    child: getBlogFiles(isrPaths).map((name) => ({
+      title: name.split(".")[0],
+      url: `/isr/${name}`,
+    })),
   },
   {
     title: "Settings",
@@ -48,16 +66,48 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {items.map((item) =>
+                item.child ? (
+                  <Collapsible
+                    defaultOpen
+                    className="group/collapsible"
+                    key={item.title}
+                  >
+                    <SidebarMenuItem>
+                      <CollapsibleTrigger asChild>
+                        <SidebarMenuButton asChild>
+                          <a>
+                            <item.icon />
+                            <span>{item.title}</span>
+                          </a>
+                        </SidebarMenuButton>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <SidebarMenuSub>
+                          {item.child.map((menu) => (
+                            <SidebarMenuSubItem key={menu.url}>
+                              <SidebarMenuButton asChild>
+                                <a href={menu.url}>
+                                  <span>{menu.title}</span>
+                                </a>
+                              </SidebarMenuButton>
+                            </SidebarMenuSubItem>
+                          ))}
+                        </SidebarMenuSub>
+                      </CollapsibleContent>
+                    </SidebarMenuItem>
+                  </Collapsible>
+                ) : (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <a href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
