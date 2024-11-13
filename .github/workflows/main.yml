@@ -1,0 +1,23 @@
+name: Trigger API
+
+on:
+  push:
+    branches:
+      - main  # 可以根据需要修改分支名称
+  pull_request:
+    branches:
+      - main  # 可以根据需要修改分支名称
+
+jobs:
+  trigger-api:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Trigger API
+        run: |
+          curl https://api.vercel.com/v1/integrations/deploy/prj_T8HEOk3z4A8rlEKiKHgyMQ4o7VdH/o51ZCkvooo
+        env:
+          API_TOKEN: ${{ secrets.API_TOKEN }}
